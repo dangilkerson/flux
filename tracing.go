@@ -12,3 +12,7 @@ import "github.com/influxdata/flux/internal/execute/traceconfig"
 func EnableExperimentalTracing() {
 	traceconfig.EnableExperimentalTracing()
 }
+
+func IsExperimentalTracingEnabled() bool {
+	return traceconfig.IsExperimentalTracingEnabled()
+}
