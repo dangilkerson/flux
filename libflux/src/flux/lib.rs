@@ -90,13 +90,11 @@ pub unsafe extern "C" fn flux_parse_fb(src_ptr: *const c_char) -> *mut flux_buff
     };
     let r = ast::flatbuffers::serialize(&pkg);
     match r {
-        Ok((vec, offset)) => {
-            Box::into_raw(Box::new(flux_buffer_t {
-                data: vec.as_ptr(),
-                offset,
-                len: vec.len(),
-            }))
-        }
+        Ok((vec, offset)) => Box::into_raw(Box::new(flux_buffer_t {
+            data: vec.as_ptr(),
+            offset,
+            len: vec.len(),
+        })),
         Err(_) => 1 as *mut flux_buffer_t,
     }
 }
