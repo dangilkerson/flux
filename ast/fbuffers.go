@@ -35,8 +35,8 @@ func (b *BaseNode) FromBuf(buf *fbast.BaseNode) {
 	}
 }
 
-func (p Package) FromBuf(buf []byte) *Package {
-	fbp := fbast.GetRootAsPackage(buf, 0)
+func (p Package) FromBuf(buf []byte, offset flatbuffers.UOffsetT) *Package {
+	fbp := fbast.GetRootAsPackage(buf, offset)
 	p.BaseNode.FromBuf(fbp.BaseNode(nil))
 	p.Path = string(fbp.Path())
 	p.Package = string(fbp.Package())

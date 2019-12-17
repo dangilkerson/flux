@@ -15,6 +15,9 @@ struct flux_buffer_t {
 	// data is a pointer to the data contained within the buffer.
 	void *data;
 
+    // offset of the beginning of the data.
+	size_t offset;
+
 	// len is the length of the buffer.
 	size_t len;
 };

@@ -13,6 +13,7 @@ import (
 	"runtime"
 	"unsafe"
 
+	flatbuffers "github.com/google/flatbuffers/go"
 	"github.com/influxdata/flux/ast"
 )
 
@@ -76,5 +77,5 @@ func ParseIntoFbs(s string) *ast.Package {
 	defer C.free(unsafe.Pointer(ptr))
 
 	data := C.GoBytes(ptr.data, C.int(ptr.len))
-	return ast.Package{}.FromBuf(data)
+	return ast.Package{}.FromBuf(data, flatbuffers.UOffsetT(C.int(ptr.offset)))
 }

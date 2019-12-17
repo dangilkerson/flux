@@ -42,6 +42,7 @@ struct ErrorHandle {
 #[repr(C)]
 pub struct flux_buffer_t {
     pub data: *const u8,
+    pub offset: usize,
     pub len: usize,
 }
 
@@ -90,10 +91,10 @@ pub unsafe extern "C" fn flux_parse_fb(src_ptr: *const c_char) -> *mut flux_buff
     let r = ast::flatbuffers::serialize(&pkg);
     match r {
         Ok((vec, offset)) => {
-            let data = &vec[offset..];
             Box::into_raw(Box::new(flux_buffer_t {
-                data: data.as_ptr(),
-                len: data.len(),
+                data: vec.as_ptr(),
+                offset,
+                len: vec.len(),
             }))
         }
         Err(_) => 1 as *mut flux_buffer_t,
