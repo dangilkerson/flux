@@ -1418,7 +1418,7 @@ func benchmarkPivot(b *testing.B, n int) {
 		},
 	}
 	for i := 0; i < b.N; i++ {
-		executetest.ProcessBenchmarkHelper(b,
+		executetest.RunBenchmark(b,
 			func(alloc *memory.Allocator) (flux.TableIterator, error) {
 				schema := gen.Schema{
 					NumPoints: n,

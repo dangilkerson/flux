@@ -1122,7 +1122,7 @@ func benchmarkFilter(b *testing.B, n int, fn *semantic.FunctionExpression) {
 		},
 	}
 	for i := 0; i < b.N; i++ {
-		executetest.ProcessBenchmarkHelper(b,
+		executetest.RunBenchmark(b,
 			func(alloc *memory.Allocator) (flux.TableIterator, error) {
 				schema := gen.Schema{
 					NumPoints: n,

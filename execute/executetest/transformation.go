@@ -261,6 +261,32 @@ func ProcessBenchmarkHelper(
 ) {
 	b.Helper()
 
+	b.Run("Baseline", func(b *testing.B) {
+		b.ReportAllocs()
+		create := func(id execute.DatasetID, alloc *memory.Allocator) (execute.Transformation, execute.Dataset) {
+			d := execute.NewDataset(id, execute.DiscardingMode, NewDataStore())
+			return NewDevNullStore(), d
+		}
+		for i := 0; i < b.N; i++ {
+			RunBenchmark(b, genInput, create)
+		}
+	})
+
+	b.Run("Full", func(b *testing.B) {
+		b.ReportAllocs()
+		for i := 0; i < b.N; i++ {
+			RunBenchmark(b, genInput, create)
+		}
+	})
+}
+
+func RunBenchmark(
+	b *testing.B,
+	genInput func(alloc *memory.Allocator) (flux.TableIterator, error),
+	create func(id execute.DatasetID, alloc *memory.Allocator) (execute.Transformation, execute.Dataset),
+) {
+	b.Helper()
+
 	defer func() {
 		if err := recover(); err != nil {
 			debug.PrintStack()
